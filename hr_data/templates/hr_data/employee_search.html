@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}Поиск сотрудника{% endblock %}
+
+{% block content %}
+<div class="container mr-1">
+    <h3>Поиск сотрудника по фамилии</h3>
+
+<form method="get" action="{% url 'employee_search' %}">
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Найти</button>
+</form>
+
+{% if employees %}
+    <h2>Результаты поиска</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Код</th>
+                <th>ФИО</th>
+                <th>Отдел</th>
+                <th>Должность</th>
+                <th>Дата приема</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for employee in employees %}
+            <tr>
+                <td>{{ employee.code }}</td>
+                <td>
+                    <a class="text-decoration-none fw-bold text-dark thumbnail" title="Смотреть данные сотрудника"  href="{% url 'employee_detail' employee.pk %}">
+                        {{ employee.last_name }} {{ employee.first_name }} {{ employee.middle_name }}
+                    </a>
+                </td>
+                <td>{{ employee.department }}</td>
+                <td>{{ employee.position }}</td>
+                <td>{{ employee.hire_date }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    {% if request.GET %}
+        <p>Сотрудники с такой фамилией не найдены.</p>
+    {% endif %}
+{% endif %}
+</div>
+
+{% endblock %}

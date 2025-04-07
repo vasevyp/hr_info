@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block title %}Информация о сотруднике{% endblock %}
+
+{% block content %}
+<div class="mx-5">
+    <h3>{{ employee.first_name }} {{ employee.last_name }}</h3>
+<div class="row">
+    <div class="col-md-6">
+        <h3>Основная информация</h3>
+        <p><strong>Код:</strong> {{ employee.code }}</p>
+        <p><strong>Отдел:</strong> {{ employee.department }}</p>
+        <p><strong>Должность:</strong> {{ employee.position }}</p>
+        <p><strong>Дата приема:</strong> {{ employee.hire_date }}</p>
+        <p><strong>Тип оплаты:</strong> {% if employee.salary_type == 'H'%} Часовая ставка{% else %}Оклад {% endif %} </p>
+        <p><strong>Оклад/ставка:</strong> {{ employee.salary_rate }}</p>
+    </div>
+    <div class="col-md-6">
+        <h3>Контактная информация</h3>
+        <p><strong>Телефон:</strong> {{ employee.phone }}</p>
+        <p><strong>Адрес:</strong> {{ employee.address }}</p>
+    </div>
+</div>
+
+<h3>Рабочее время в текущем месяце</h3>
+ 
+<p><strong>Отработано часов:</strong> {{total_hours}}</p>
+<p><strong>Зарплата текущая:</strong> {{current_salary|floatformat:0|intcomma}} руб.</p>
+<h3>Отсутствие в текущем месяце</h3>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Дата</th>
+            <th>Причина</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+        {% for time in abcences %}
+        <tr>
+            <td>{{ time.date }}</td>
+            <td>{{ time.timesheet_data }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h3>Отпуска</h3>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Начало план</th>
+            <th>Окончание план</th>
+            <th>Начало факт</th>
+            <th>Окончание факт</th>
+            <th>Статус</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for vacation in vacations %}
+        <tr>
+            <td>{{ vacation.planned_start_date }}</td>
+            <td>{{ vacation.planned_end_date }}</td>
+            <td>{{ vacation.actual_start_date }}</td>
+            <td>{{ vacation.actual_end_date }}</td>
+            <td>{{ vacation.remaining_days }}</td>
+            
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endblock %}

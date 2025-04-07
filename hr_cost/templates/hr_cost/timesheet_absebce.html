@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}Табель{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+
+<h3>Табель отсутствия сотрудников за {{ current_month | date:"F Y" }}</h3>
+
+
+<a href="{% url 'export_timesheet_csv' %}" class="btn btn-success  ms-5">Экспорт в CSV</a>
+
+
+<table class="table table-bordered mt-2 mx-1" style="font-size: 12px;">
+    <thead>
+        <tr>
+            <th>Сотрудник</th>
+            <th>ID</th>
+            <!-- <th>Всего</th> -->
+            {% for date in dates %}
+                <th class="{% if date.weekday >= 5 %}bg-success {% else %}bg-info{% endif %}">
+                    {{ date.date }}
+                </th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for data in timesheet_data %}
+            <tr>
+               
+                <td style="font-size: 14px; font-weight: 500;">{{ data.employee }}</td>
+                <td>{{ data.code }}</td>
+                <!-- <td>{{ data.total_hours }}</td> -->
+            
+
+                {% for hours in data.hours %}
+                    <td class="{% if forloop.counter0 < dates|length and dates.forloop.counter0.weekday >= 5 %}bg-info{% endif %}">
+                        {{ hours}}
+                    </td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endblock %}

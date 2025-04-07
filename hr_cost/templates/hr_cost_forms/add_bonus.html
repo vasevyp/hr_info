@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}Добавить Бонус{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h3>Бонусы за {{ current_month | date:"F Y" }}</h3>
+    <a href="{% url 'bonus_upload' %}" class="fw-bold text-decoration-none fs-5">Загрузить бонусы из файла .xlsx</a> или загрузить через форму ниже:
+    <form method="post">
+        {% csrf_token %}
+        Сотрудник {{ form.employee }} ID {{form.code}}
+        бонус {{ form.bonus }}
+
+        <button type="submit" class="btn btn-primary ms-4">Сохранить</button>
+    </form>
+    <table class="table table-bordered mt-2 mx-1" style="font-size: 12px;">
+        <thead>
+            <tr>
+                <th>Сотрудник</th>
+                <th>ID</th>
+                <th>Бонус, руб.</th>
+                <th>Удалить</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            {% for data in bonus_list %}
+            <tr>
+                <td style="font-size: 14px; font-weight: 500;">{{ data.employee }}</td>
+                <td>{{ data.code }}</td>
+                <td>{{ data.bonus }}</td>
+                {% if data %}
+                <td><a class="btn text-danger bg-info fw-bold" style="font-size: 12px;"
+href='{% url "bonus_delete" data.pk %} '
+onclick="return confirm('Вы уверены, что хотите удалить / {{ data.employee }} / ?');">Удалить</a>
+</td>
+{% endif %}
+
+                
+
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

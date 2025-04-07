@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Добавить отработанное время{% endblock %}
+
+{% block content %}
+<div class="container">
+<h3>Добавить отработанное время</h3>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.employee }}
+    {{ form.date }}
+    {{ form.hours_worked }}
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+</form>
+
+<a href="{% url 'timesheet' %}" class="btn btn-secondary mt-3">Назад к табелю</a>
+</div>
+{% endblock %}

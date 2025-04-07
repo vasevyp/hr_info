@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block title %}
+{{ block.super }}: main
+{% endblock %}
+
+{% block content %}
+<div class="container col-12 col-md-10 mx-auto mb-3 ">
+    <form method="post">
+        {% csrf_token %}
+        Введите год <span>{{form.year}}</span> месяц {{form.month}}
+        <button type="submit" class="btn btn-sm btn-info ms-4">Выбрать данные за период</button>
+    </form>
+    <h3 class="my-5">Данные по персоналу за {{period|date:" F Y"}} </h3>
+
+    <div class="row">
+        <div class="col  mx-1">
+            <h5 class="row mx-auto my-3">Всего сотрудников в компании</h5>
+            <div class="row  mx-3 to-bottom">{{total_count}}</div>
+        </div>
+        <div class="col  mx-1">
+            <h5 class="row mx-auto my-3">Выходы сотрудников, человеко-дней</h5>
+            <div class="row mx-3">{{total_days}}</div>
+        </div>
+        <div class="col mx-1">
+            <h5 class="row mx-auto my-3">Отработано, человеко-часов</h5>
+            <div class="row mx-3">{{total_hours|floatformat:0|intcomma}}</div>
+        </div>
+        <div class="col mx-1">
+            <h5 class="row mx-auto my-3">Среднее в день на сотрудника, часов</h5>
+            <div class="row mx-3">{{ahpe|floatformat:'2'}}</div>
+        </div>
+    </div>
+    <div class="row my-5">
+        <div class="col  mx-1">
+            <h5 class="row mx-auto my-3">Начислено зарплаты за текущий месяц, руб</h5>
+            <div class="row mx-3">{{total_accrued|floatformat:0|intcomma}}</div>
+        </div>
+        <div class="col  mx-1">
+            <h5 class="row mx-auto my-3">Начислены бонусы за текущий месяц, руб</h5>
+            <div class="row mx-3">{{total_bonus|floatformat:0|intcomma}}</div>
+        </div>
+        <div class="col mx-1">
+            <h5 class="row mx-auto my-3">Всего зарплата за текущий месяц, руб</h5>
+            <div class="row mx-3">{{total_salary|floatformat:0|intcomma}}</div>
+        </div>
+        <div class="col mx-1">
+            <h5 class="row mx-auto my-3">Затраты на персонал за текущий месяц, руб</h5>
+            <div class="row mx-3">{{total_employee_cost|floatformat:0|intcomma}}</div>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

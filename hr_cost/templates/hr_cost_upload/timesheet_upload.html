@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+{{ block.super }}: Timesheet-upload
+{% endblock %}
+
+{% block content %}
+<div class=" continer mt-5">
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="row">
+      <div class="ms-5 col-md-7 col-xs-12">
+        <div class="x_panel">
+          <div class="x_title">
+            <h5>Загрузка данных табеля</h5>
+            <div class="col-12 bgc-secondary">
+              <a target="_blank" class="text-decoration-none" href="/admin/hr_cost/uploadtimesheet/export/?">Скачать
+                Шаблон для файла данных можно здесь (выберите Формат: xlsx)</a>
+            </div>
+            <h5>Выберите файл для импорта (xlsx)  </h5>
+            <h6 class="text-danger">Внимание! В файле должны быть данные ТОЛЬКО за ОДИН день</р>
+
+            <div class="clearfix"></div>
+          </div>
+          <div class="x_content">
+
+            <div class="col-md-8 col-sm-12 col-xs-12 form-group"></div>
+
+            <input type="file" name="myfile" class="form-control font80">
+
+            <button type="submit" class="btn btn-info btn-sm my-3 btn-bg">Загрузить</button>
+
+            {% if myfile %}
+            <h6 class="text-success">
+              Файл <b>{{myfile}}</b> успешно загружен!</h6>
+            <h5>Сохранение загруженных данных в базу данных</h5>
+            <a href='{% url "timesheet_save" %}' type="submit" class="btn btn-sm btn-success btn-block"
+              name="export">Сохранить в базу данных</a>
+            {% else %}
+            {% if loading_except %}
+            {% else %}
+            {% endif %}
+            {% endif %}
+            {% if double_upload %}
+            <h6 class="text-danger">Внимание! {{double_upload}}</h6>
+            <h6 class="text-primary">Измените загружаемый файл и повторите загрузку.</h6><a
+              href='{% url "timesheet_upload" %}' type="submit" class="btn btn-sm btn-danger btn-block">Сбросить данные
+              и Повторить загрузку</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+
+{% endblock %}

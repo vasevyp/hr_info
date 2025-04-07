@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block title %} {{block.super}}:по отделу{% endblock %}
+
+{% block content %}
+<div class="container">
+    {% if select_except %}
+    <div class='ms-5 mt-5'>
+        <h5 class='text-danger'>ВНИМАНИЕ! Отдел "{{department}}" не найден.</h5>
+        <a href="{% url 'employee_list' %}">Вернуться к выбору</a>
+    </div>
+    {% else %}
+
+    {% if employees_dep %}
+
+    <div class="col-12 mx-auto">
+        <a href="{% url 'employee_list' %}">Вернуться к выбору</a>
+        <h3>{{department}}. <span style="font-size:15px;">Всего сотрудников : {{employees_dep.count}}</span></h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Код</th>
+                    <th>ФИО</th>
+                    <th>Отдел</th>
+                    <th>Должность</th>
+                    <th>Дата приема</th>
+                    <th>Оплата</th>
+                    <th>Ставка</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for employee in employees_dep %}
+                <tr>
+                    <td>{{ employee.code }}</td>
+                    <td>
+                        <a class="text-decoration-none fw-bold text-dark thumbnail" title="Смотреть данные сотрудника"
+                            href="{% url 'employee_detail' employee.pk %}">
+                            {{ employee.last_name }} {{ employee.first_name }} {{ employee.middle_name }}
+                        </a>
+                    </td>
+                    <td>{{ employee.department.name}}</td>
+                    <td>{{ employee.position }}</td>
+                    <td>{{ employee.hire_date|date:"d M Y" }}</td>
+                    <td>{% if employee.salary_type == 'M'%}Оклад{% else %}Почасовая{% endif %}</td>
+                    <td class="text-end">{{ employee.salary_rate|floatformat:0|intcomma }}</td>
+
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+
+    </div>
+
+    {% else %}
+    <div class="container me-1">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card1">
+                    <div class="card-body">
+                        <!-- Card -->
+                        <div class="card-body ">
+                            <h3>Список сотрудников <span class="fs-4">(всего: {{employees.count}})</span> </h3>
+
+                        </div>
+                        <div>
+                            <div class="card-body">
+                                <form action="#" method="post" novalidate="novalidate">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <label for="name" class="control-label mb-1 fs-6"> <b>Выбрать по отделу </b>
+                                            &nbsp &nbsp &nbsp
+                                            &nbsp</label>
+                                        {{ form.department_name }}
+                                        <button type="submit" class="btn btn-sm btn-info btn-block ms-5">
+                                            <span>Выбрать</span>
+                                        </button>
+
+                                        <a href="{% url 'export_employee_list_pdf' %}"
+                                            class="btn btn-block btn-success ms-5 mt-1 mt-md-0">Экспорт в PDF</a>
+
+                                    </div>
+
+
+
+
+                                </form>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div> <!-- .card -->
+
+
+            </div>
+            <!--col-->
+            <div class="container mr-1">
+
+
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Код</th>
+                            <th>ФИО</th>
+                            <th>Отдел</th>
+                            <th>Должность</th>
+                            <th>Дата приема</th>
+                            <th>Оплата</th>
+                            <th>Ставка</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for employee in employees %}
+                        <tr>
+                            <td>{{ employee.code }}</td>
+                            <td>
+                                <a class="text-decoration-none fw-bold text-dark thumbnail"
+                                    title="Смотреть данные сотрудника" href="{% url 'employee_detail' employee.pk %}">
+                                    {{ employee.last_name }} {{ employee.first_name }} {{ employee.middle_name }}
+                                </a>
+                            </td>
+                            <td>{{ employee.department}}</td>
+                            <td>{{ employee.position }}</td>
+                            <td>{{ employee.hire_date|date:"d M Y" }}</td>
+                            <td>{% if employee.salary_type == 'M'%}Оклад{% else %}Почасовая{% endif %}</td>
+                            <td class="text-end">{{ employee.salary_rate|floatformat:0|intcomma }}</td>
+
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <!--/.col-->
+        </div>
+        {% endif %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+{{ block.super }}: Bonus-upload
+{% endblock %}
+
+{% block content %}
+<div class=" continer mt-5">
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="row">
+      <div class="ms-5 col-md-7 col-xs-12">
+        <div class="x_panel">
+          <div class="x_title">
+            <h5>Загрузка бонуса сотрудников</h5>
+            <div class="col-12 bgc-secondary">
+              <a target="_blank" class="text-decoration-none" href="/admin/hr_cost/bonus/export/?">Скачать
+                Шаблон для файла данных можно здесь (выберите Формат: xlsx)</a>
+            </div>
+            <h5>Выберите файл для импорта (xlsx)</h5>
+
+            <div class="clearfix"></div>
+          </div>
+          <div class="x_content">
+
+            <div class="col-md-8 col-sm-12 col-xs-12 form-group">
+
+              </label>
+            </div>
+
+            <input type="file" name="myfile" class="form-control font80">
+
+            <button type="submit" class="btn btn-info btn-sm my-3 btn-bg">Загрузить</button>
+
+            {% if myfile %}
+            <h6 class="text-success">
+              Файл <b>{{myfile}}</b> успешно загружен!</h6>
+            
+        
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+
+{% endblock %}

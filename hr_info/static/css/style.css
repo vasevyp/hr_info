@@ -1,0 +1,20 @@
+.weekend {
+    background-color: #c00a19; /* Красный цвет для выходных */
+}
+.text-center {
+    text-align: center;
+}
+
+.font-bold600{
+    font-weight: 600;
+}
+.font-bold500{
+    font-weight: 500;
+}
+.mx-center{
+    margin: 0 auto;
+}
+#form-width{
+    width: 10px;
+    color: #db0c0c;
+}

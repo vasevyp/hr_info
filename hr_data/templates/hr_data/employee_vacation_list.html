@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+
+{% block title %}vacation list{% endblock %}
+
+{% block content %}
+<div class="container"><h3> График отпусков сотрудников</h3>
+
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th class="col-1">Код</th>
+                <th class="col-2">ФИО</th>
+                <th class="col-1">Начало план.</th>
+                <th class="col-1">Конец план.</th>
+                <th class="col-1">Начало факт</th>
+                <th class="col-1">Конец факт</th>
+                <th class="col-1">Дней план</th>
+                <th class="col-1">Остаток</th>
+            </tr>
+        </thead>
+        <tbody>
+          
+                {% for vacation in employees %}
+                    <tr>
+                        <td class="col-1">{{ vacation.employee_id }}</td>
+                        <td class="col-2">{{ vacation.employee }}</td>
+                        <td class="col-1">{{ vacation.planned_start_date|date:"d-M Y"|default:"N/A" }}</td>
+                        <td class="col-1">{{ vacation.planned_end_date|date:"d-M Y"|default:"N/A" }}</td>
+                        <td class="col-1">{{ vacation.actual_start_date|date:"d-M Y"|default:"N/A" }}</td>
+                        <td class="col-1">{{ vacation.actual_end_date|date:"d-M Y"|default:"N/A" }}</td>
+                        <td class="col-1">{{ vacation.planned_days }}</td>
+                        <td class="col-1">{{ vacation.remaining_days }}</td>
+                    </tr>
+                
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+</div>
+
+{% endblock %}

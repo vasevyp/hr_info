@@ -1,0 +1,51 @@
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Зарплата сотрудников</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #000;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h3>Зарплата сотрудников на {{date_is|date:"d M Y"}}</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Код</th>
+                <th>ФИО</th>
+                <th>Начислено</th>
+                <th>Бонус</th>
+                <th>Зарплата</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            {% for employee in employees %}
+            <tr>
+                <td>{{ employee.code }}</td>
+                <td>{{ employee.employee }}</td>
+                <td class="col-2 text-end">{{ employee.accrued_salary|floatformat:0|intcomma}}</td>
+                <td class="col-2 text-end">{{ employee.bonus|floatformat:0|intcomma}}</td>
+                <td class="col-2 text-end">{{ employee.salary|floatformat:0|intcomma}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

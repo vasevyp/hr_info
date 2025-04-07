@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Отделы{% endblock %}
+
+{% block content %}
+<div class="container mr-1">
+    <h3>Список отделов</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+
+                <th>Отдел</th>
+                <th>Руководитель</th>
+                <th>ФИО</th>
+                <th>Примечание</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td>{{ item.name }}</td>
+                <td>{{ item.manager_job_title }}</td>
+                <td>{{ item.manager_last_name}} {{ item.manager_first_name}} {{ item.manager_middle_name}}</td>
+                <td>{{ item.description }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

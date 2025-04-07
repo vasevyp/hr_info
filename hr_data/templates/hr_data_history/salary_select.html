@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block title %}Зарплата History{% endblock %}
+
+{% block content %}
+<div class="container mr-1">
+    <form method="post">
+        {% csrf_token %}
+        Введите год <span>{{form.year}}</span> месяц {{form.month}}
+        <button type="submit" class="btn btn-sm btn-info ms-4">Выбрать зарплату из исторических данных</button>
+    </form>
+    <h3>Зарплата сотрудников за {{current_date |  date:"M Y"}} </h3>
+    <!-- <a href="{% url 'export_employee_list_pdf' %}" class="btn btn-success mb-3">Экспорт в PDF</a> -->
+    <table class="table table-striped">
+        <thead>
+            <tr>
+              
+                <th class=" col-4">Сотрудник</th>
+                <th class=" col-1">ID</th>
+                <th class="col-2 text-end">Начислено</th>
+                <th class="col-2 text-end">Бонус</th>
+                <th class="col-2 text-end">Зарплата</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            {% for employee in items %}
+            <tr>
+                
+                <td>
+                    <a class=" col-4 text-decoration-none fw-bold text-dark thumbnail" title="Смотреть данные сотрудника" href="{% url 'employee_detail' employee.pk %}">
+                        {{ employee.employee }}
+                    </a>
+                </td>
+                <td class=" col-1">{{employee.code}}</td>
+                <td class="col-2 text-end">{{ employee.accrued_salary|floatformat:0|intcomma}}</td>
+                <td class="col-2 text-end">{{ employee.bonus|floatformat:0|intcomma}}</td>
+                <td class="col-2 text-end">{{ employee.salary|floatformat:0|intcomma}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ block.super }}: cost
+{% endblock %}
+
+{% block content %}
+<div class="container col-12 col-md-8 mx-auto mb-3">
+    <h3 class="my-5">Приложение по учету затрат на персонал</h3>
+    HR COST
+    <ul>
+        <li> <a class="nav-link active" aria-current="page" href="{% url 'login' %}">Login</a></li>
+            
+        <li><a class="nav-link active" aria-current="page" href="{% url 'register' %}">REG</a>
+        </li>
+        <li> <a class="nav-link active" aria-current="page" href="{% url 'logout' %}">Logout</a>
+            </li>
+        <li><a class="nav-link active" aria-current="page" href="{% url 'main' %}">Main</a></li>
+    </ul>
+    <h5>Приложение позволяет получить следующую информацию:</h5>
+    <ul>
+      
+        <li>Табель текущего месяца</li>
+        <li>Зарплата текущего месяца</li>
+        <li>Отпуска/больничные</li>
+      
+        <li>Вывод/скачивание данных в формате pdf или csv</li>
+    </ul>
+  
+
+  </div>
+{% endblock %}

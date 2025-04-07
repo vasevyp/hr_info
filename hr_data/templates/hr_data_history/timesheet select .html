@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}Табель{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <form method="post">
+        {% csrf_token %}
+        Введите год <span>{{form.year}}</span> месяц {{form.month}}
+        <button type="submit" class="btn btn-sm btn-info ms-4">Выбрать табель из исторических данных</button>
+    </form>
+
+    <h3>Табель сотрудников за {{ current_month | date:"F Y" }}</h3>
+
+
+
+    <table class="table table-bordered mt-2 mx-1" style="font-size: 12px;">
+        <thead>
+            <tr>
+                <th>Сотрудник</th>
+                <th>ID</th>
+                {% for date in dates %}
+                <th class="{% if date.weekday >= 5 %}bg-success {% else %}bg-info{% endif %}">
+                    {{ date.date }}
+                </th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for data in timesheet_data %}
+            <tr>
+
+                <td style="font-size: 14px; font-weight: 500;">{{ data.employee }}</td>
+                <td>{{ data.code }}</td>
+               
+                {% for hours in data.hours %}
+                <td
+                    class="{% if forloop.counter0 < dates|length and dates.forloop.counter0.weekday >= 5 %}bg-info{% endif %}">
+                    {{ hours}}
+                </td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

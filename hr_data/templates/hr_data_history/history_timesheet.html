@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block title %}timesheet save{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h3>Сохранить Табель за месяц в базу исторических данных </h3>
+    {% if timesheet_list%}
+    <p>( сейчас данные с {{last_date|date:"M Y"}} по {{first_date|date:"M Y"}})</p>
+    
+    {% endif %}
+
+    {% if request.user.is_superuser %}
+
+    <form method="post">
+        {% csrf_token %}
+        <!-- Введите последнюю дату месяца, за который сохраняете данные по зарплате {{form.period}} -->
+        Введите год <span>{{form.year}}</span> месяц {{form.month}}
+        <button type="submit" class="btn btn-sm btn-info ms-4"
+            onclick="return confirm('Вы уверены, что хотите перенести данные?');">Добавить табель за месяц в базу</button>
+    </form>
+    {% if select_except %}
+    {{select_except}} <a class="btn btn-sm btn-success ms-2" href="{% url 'history_timesheet' %}">Повторите
+        ввод даты/периода</a>
+    {% endif %}
+
+    {% endif %}
+    <table class="table table-bordered mt-2 mx-1" style="font-size: 12px;">
+        <thead>
+            <tr>
+                <th>Период</th>
+                <th>Дата</th>
+                <th>Сотрудник</th>
+                <th>ID</th>
+                <th class="col-2 text-end">Табель</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            {% for data in timesheet_list %}
+            <tr>
+
+                <td>{{ data.period|date:"M Y"}}</td>
+                <td>{{ data.date}}</td>
+                <td style="font-size: 14px; font-weight: 500;">{{ data.employee }}</td>
+                <td>{{ data.code }}</td>
+                <td class="col-2 text-end">{{ data.timesheet_data }}</td>
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
